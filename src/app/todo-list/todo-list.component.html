@@ -1,7 +1,18 @@
 <input 
     type="text"
     [(ngModel)]="taskName">
-<button (click)="addTaskItem()">&#43;</button>
+<button (click)="addTaskItem()"><i class="fas fa-plus"></i></button>
+
 <ol>
-    <li *ngFor="let task of taskList">{{ task }}</li>
+    <li *ngFor="let task of taskList">
+        <span *ngIf="taskBeingEdited !== task; else elseBlock">
+            {{ task }}
+            <button (click)="editTaskItem(task)"><i class="fas fa-edit"></i></button>
+            <button (click)="removeTaskItem(task)"><i class="fas fa-trash"></i></button>
+        </span>
+        <ng-template #elseBlock>
+            <input #updatedTask (keyup.enter)="saveTaskItem(updatedTask.value, task)" value="{{task}}">
+            <button (click)="saveTaskItem(updatedTask.value, task)">Save</button>
+        </ng-template>
+    </li>
 </ol>

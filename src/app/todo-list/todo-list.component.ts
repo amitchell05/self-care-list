@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
+  taskBeingEdited: string = '';
   taskName: string = 'Enter an activity...';
   taskList: string[] = [
     'Take a bath',
@@ -19,17 +20,26 @@ export class TodoListComponent implements OnInit {
   }
 
   addTaskItem() {
-    if (!this.taskList.includes(this.taskName)) {
+    if (!this.taskList.includes(this.taskName) && this.taskName !== 'Enter an activity...') {
       this.taskList.push(this.taskName);
     }
   }
 
-  // removeTaskItem() {
+  removeTaskItem(task: string) {
+    let index = this.taskList.indexOf(task);
+    this.taskList.splice(index, 1); 
+  }
 
-  // }
+  editTaskItem(task: string) {
+    this.taskBeingEdited = task;
+  }
 
-  // editTaskItem() {
-
-  // }
+  saveTaskItem(newItem: string, oldItem: string) {
+    let index = this.taskList.indexOf(oldItem);
+    if (newItem !== '') {
+      this.taskList.splice(index, 1, newItem);
+    }
+    this.taskBeingEdited = '';
+  }
 
 }
